@@ -27,11 +27,9 @@ pipeline {
             steps {
                 withSonarQubeEnv('SONAR_SERVER') {
                     // Optionally use a Maven environment you've configured already
-                    withMaven(maven:'M2') {
-                        sh 'mvn clean package'
-			//def scannerHome = tool 'SONAR_SCANER';
-			//sh "${scannerHome}/bin/sonar-scanner sonar.java.binaries=**/target/classes "    
-                    }
+                    def scannerHome = tool 'SONAR_SCANER';
+		    sh "${scannerHome}/bin/sonar-scanner sonar.java.binaries=**/target/classes "    
+                    
                 }
             }
         }
