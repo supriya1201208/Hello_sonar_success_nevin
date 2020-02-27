@@ -10,9 +10,9 @@ pipeline {
     stages {
     	stage('GIT checkout'){
 		steps{
-			      checkout changelog: false, poll: false, 
-			      scm: [$class: 'GitSCM', branches: [[name: '*/master']], 
-			      doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/nevin-cleetus/hello.git']]]
+			checkout changelog: false, poll: false, 
+			scm: [$class: 'GitSCM', branches: [[name: '*/master']], 
+			doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/nevin-cleetus/hello.git']]]
 		}
 	}
 		
@@ -23,7 +23,6 @@ pipeline {
 		}
 	}
          
-         
 	stage('SonarQube analysis') {
 		steps{
 			withSonarQubeEnv('SONAR_SERVER') {
@@ -31,5 +30,6 @@ pipeline {
 				sh "${scannerHome}/bin/sonar-scanner sonar.java.binaries=**/target/classes "
 			}
 		}
-	}		
+	}
+    }	    
 }
