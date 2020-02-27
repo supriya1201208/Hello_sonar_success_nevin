@@ -26,7 +26,7 @@ pipeline {
 	stage('SonarQube analysis') {
 		steps{
 			withSonarQubeEnv('SONAR_SERVER') {
-				steps{	
+				step{	
 				    def scannerHome = tool 'SONAR_SCANER';
 				    sh "${scannerHome}/bin/sonar-scanner sonar.java.binaries=**/target/classes "
 				}	 
