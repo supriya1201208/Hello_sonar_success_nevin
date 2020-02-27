@@ -23,15 +23,6 @@ pipeline {
 		}
 	}
          
-	stage('SonarQube analysis') {
-		steps{
-			withSonarQubeEnv('SONAR_SERVER') {
-				step{	
-				    def scannerHome = tool 'SONAR_SCANER';
-				    sh "${scannerHome}/bin/sonar-scanner sonar.java.binaries=**/target/classes "
-				}	 
-			}
-		}
-	}
+	
     }	    
 }
