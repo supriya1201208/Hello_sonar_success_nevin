@@ -16,22 +16,12 @@ pipeline {
 		}
 	}
 		
-	stage ('Build') {
+	stage('build && SonarQube analysis') {
+
 		steps {
 			echo 'This is a minimal pipeline.'
-			sh "mvn clean package"
+			sh 'mvn clean package sonar:sonar'
 		}
 	}
-	
-	stage('build && SonarQube analysis') {
-            steps {
-                withSonarQubeEnv('SONAR_SERVER') {
-                    // Optionally use a Maven environment you've configured already
-                    def scannerHome = tool 'SONAR_SCANER';
-		    sh "${scannerHome}/bin/sonar-scanner sonar.java.binaries=**/target/classes "    
-                    
-                }
-            }
-        }
     }	    
 }
