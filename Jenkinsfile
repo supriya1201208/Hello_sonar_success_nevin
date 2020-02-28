@@ -16,17 +16,19 @@ pipeline {
 		}
 	}
 	    
-	stage('SonarQube analysis') {
-    	    def scannerHome = tool 'SONAR_SCANNER';
-            withSonarQubeEnv('SONAR_SERVER') { // If you have configured more than one global server connection, you can specify its name
-                sh "${scannerHome}/bin/sonar-scanner"
-	    }	    
-         }
-		
-	stage("TestQualityGate") {
-            steps {
-                waitForQualityGate abortPipeline: true
-            }
-        }   	
+	stage('Sonarqube') {
+            environment {
+                scannerHome = tool 'SONAR_SCANNER_ID'
+            }    
+	    steps {
+                withSonarQubeEnv('sonarqube') {
+                   sh "${scannerHome}/bin/sonar-scanner"
+		}        
+		timeout(time: 10, unit: 'MINUTES') {
+                        waitForQualityGate abortPipeline: true
+                }
+           }
+        }    
+	 	
     }	    
 }
