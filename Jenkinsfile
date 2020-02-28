@@ -23,7 +23,11 @@ pipeline {
             environment {
                 scannerHome = tool 'SONAR_SCANNER_ID'
             }    
-	    sh 'mvn clean package '	
+	    steps {
+			echo 'This is a minimal pipeline.'
+			sh 'mvn clean package '
+	    }	
+		
 	    steps {
                 withSonarQubeEnv('SONAR_SERVER') {
                    sh "${scannerHome}/bin/sonar-scanner"
