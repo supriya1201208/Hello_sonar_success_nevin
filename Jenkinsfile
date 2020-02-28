@@ -15,12 +15,7 @@ pipeline {
 			doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/nevin-cleetus/hello.git']]]
 		}
 	}
-	stage('Build'){
-	    steps {
-		echo 'This is a minimal pipeline.'
-		sh 'mvn clean package '
-	     }	
-	}    
+	
 	    
 	stage('SONAR_SERVER') {	
             environment {
@@ -28,6 +23,7 @@ pipeline {
             }    
 	    steps {
                 withSonarQubeEnv('SONAR_SERVER') {
+		   sh 'mvn clean package '	
                    sh "${scannerHome}/bin/sonar-scanner"
 		}        
 		timeout(time: 10, unit: 'MINUTES') {
