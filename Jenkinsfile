@@ -16,12 +16,12 @@ pipeline {
 		}
 	}
 	    
-	stage('Sonarqube') {
+	stage('SONAR_SERVER') {
             environment {
                 scannerHome = tool 'SONAR_SCANNER_ID'
             }    
 	    steps {
-                withSonarQubeEnv('sonarqube') {
+                withSonarQubeEnv('SONAR_SERVER') {
                    sh "${scannerHome}/bin/sonar-scanner"
 		}        
 		timeout(time: 10, unit: 'MINUTES') {
