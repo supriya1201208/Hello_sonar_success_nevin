@@ -1,0 +1,27 @@
+pipeline {
+    
+    agent any
+
+    environment
+    {
+        PATH="/opt/apache-maven-3.6.3/bin:$PATH"
+    }
+	
+    stages {
+    	stage('GIT checkout'){
+		steps{
+			checkout changelog: false, poll: false, 
+			scm: [$class: 'GitSCM', branches: [[name: '*/master']], 
+			doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/nevin-cleetus/hello.git']]]
+		}
+	}
+		
+	stage('build && SonarQube analysis') {
+
+		steps {
+			echo 'This is a minimal pipeline.'
+			sh 'mvn clean package sonar:sonar -Dsonar.host.url=http://13.235.248.22:9000 -Dsonar.login=b8b8454c3e04c859e60c838bc80c91e0125365f2'
+		}
+	}
+    }	    
+}
