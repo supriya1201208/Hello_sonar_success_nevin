@@ -15,19 +15,17 @@ pipeline {
 			doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/nevin-cleetus/hello.git']]]
 		}
 	}
+	    
+	stage('SonarQube analysis') {
+    	    def scannerHome = tool 'SONAR_SCANNER';
+            withSonarQubeEnv('SONAR_SERVER') { // If you have configured more than one global server connection, you can specify its name
+            sh "${scannerHome}/bin/sonar-scanner"
+         }
 		
-	stage('build && SonarQube analysis') {
-
-		steps {
-			echo 'This is a minimal pipeline.'
-			sh 'mvn clean package sonar:sonar -Dsonar.projectKey=MyHello -Dsonar.host.url=http://13.235.242.47:9000/sonar -Dsonar.login=d4b7a84c8da51ff1a211392a5e99344a9e0384e7'
-		}
-	}
 	stage("TestQualityGate") {
             steps {
                 waitForQualityGate abortPipeline: true
             }
-        }   
-	
+        }   	
     }	    
 }
