@@ -30,6 +30,8 @@ pipeline {
             }    
 	    steps {
                 withSonarQubeEnv('SONAR_SERVER') {
+		   sh 'mvn clean package' 
+		   echo 'Maven build'	
 		   sh "${scannerHome}/bin/sonar-scanner"
 		}        
 		timeout(time: 10, unit: 'MINUTES') {
