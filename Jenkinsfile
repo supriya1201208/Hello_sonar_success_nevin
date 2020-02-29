@@ -19,7 +19,7 @@ pipeline {
 	stage('build') {
 		steps {
 			echo 'Maven build'
-			sh 'mvn clean package sonar:sonar -Dsonar.host.url=http://13.235.242.47:9000/sonar -Dsonar.login=b8b8454c3e04c859e60c838bc80c91e0125365f2'
+			sh 'mvn clean package sonar:sonar -Dsonar.projectKey=MyHello -Dsonar.host.url=http://13.235.242.47:9000/sonar -Dsonar.login=d4b7a84c8da51ff1a211392a5e99344a9e0384e7'
 		}
 	}
 	    
