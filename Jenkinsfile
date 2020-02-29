@@ -16,6 +16,13 @@ pipeline {
 		}
 	}
 	
+	stage('build') {
+
+		steps {
+			echo 'Maven build'
+			sh 'mvn clean package' 
+		}
+	}
 	    
 	stage('SONAR_SERVER') {	
             environment {
