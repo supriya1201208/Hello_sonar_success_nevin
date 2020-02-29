@@ -1,1 +1,30 @@
+node{ 
+   stage('SCM Checkout'){
+     git 'https://github.com/nevin-cleetus/hello.git'
+   }
+   stage('Compile-Package'){      
+      def mvnHome =  tool name: 'M2', type: 'maven'   
+      sh "${mvnHome}/bin/mvn package"
+   }
+   
+   stage('SonarQube Analysis') {
+        def mvnHome =  tool name: 'M2', type: 'maven'
+        withSonarQubeEnv('SONAR_SERVER') { 
+          sh "${mvnHome}/bin/mvn sonar:sonar -Dsonar.projectKey=MyHello -Dsonar.host.url=http://13.235.242.47:9000/sonar -Dsonar.login=d4b7a84c8da51ff1a211392a5e99344a9e0384e7" 
+        }
+   }
+   
+   stage("Quality Gate Statuc Check"){
+          timeout(time: 1, unit: 'HOURS') {
+              def qg = waitForQualityGate()
+              if (qg.status != 'OK') {                   
+                  error "Pipeline aborted due to quality gate failure: ${qg.status}"
+              }
+          }
+    }    
+   
+}
+
+
+
 
