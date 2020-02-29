@@ -17,24 +17,15 @@ pipeline {
 	}
 	
 	stage('build') {
-
 		steps {
 			echo 'Maven build'
-			sh 'mvn clean package' 
+			sh 'mvn clean package sonar:sonar -Dsonar.host.url=http://13.235.248.22:9000 -Dsonar.login=b8b8454c3e04c859e60c838bc80c91e0125365f2'
 		}
 	}
 	    
 	stage('SONAR_SERVER') {	
-            environment {
-                scannerHome = tool 'SONAR_SCANNER_ID'
-            }    
-	    steps {
-                withSonarQubeEnv('SONAR_SERVER') {
-		   sh 'mvn clean package' 
-		   echo 'Maven build'	
-		   sh "${scannerHome}/bin/sonar-scanner"
-		}        
-		timeout(time: 10, unit: 'MINUTES') {
+            steps {
+                timeout(time: 10, unit: 'MINUTES') {
                         waitForQualityGate abortPipeline: true
                 }
            }
