@@ -30,6 +30,7 @@ public class TestHello extends TestCase {
     public void testHelloWorld()
     {
         assertEquals("Hello", Helloworld.sayHello());
+        assertEquals("Hello", Helloworld.sayHello()); 
     }
 
 }
